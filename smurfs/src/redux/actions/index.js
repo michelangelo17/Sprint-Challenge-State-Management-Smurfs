@@ -16,6 +16,8 @@ export const DELETE_SMURF_START = 'DELETE_SMURF_START'
 export const DELETE_SMURF_SUCCESS = 'DELETE_SMURF_SUCCESS'
 export const DELETE_SMURF_ERROR = 'DELETE_SMURF_ERROR'
 
+export const TOGGLE_EDITING = 'SET_EDITING_TO_TRUE'
+
 export const getSmurfs = () => dispatch => {
   dispatch({ type: GET_SMURFS_START })
   Axios.get('http://localhost:3333/smurfs')
@@ -33,13 +35,17 @@ export const addSmurf = smurf => dispatch => {
 export const editSmurf = smurf => dispatch => {
   dispatch({ type: EDIT_SMURF_START })
   Axios.put(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
-  .then(res => dispatch({ type: EDIT_SMURF_SUCCESS, payload: res.data }))
-  .catch(err => dispatch({ type: EDIT_SMURF_ERROR, payload: err }))
+    .then(res => dispatch({ type: EDIT_SMURF_SUCCESS, payload: res.data }))
+    .catch(err => dispatch({ type: EDIT_SMURF_ERROR, payload: err }))
 }
 
 export const deleteSmurf = id => dispatch => {
   dispatch({ type: DELETE_SMURF_START })
   Axios.delete(`http://localhost:3333/smurfs/${id}`)
-  .then(res => dispatch({ type: DELETE_SMURF_SUCCESS, payload: res.data }))
-  .catch(err => dispatch({ type: DELETE_SMURF_ERROR, payload: err }))
+    .then(res => dispatch({ type: DELETE_SMURF_SUCCESS, payload: res.data }))
+    .catch(err => dispatch({ type: DELETE_SMURF_ERROR, payload: err }))
+}
+
+export const toggleEditing = id => {
+  return { type: TOGGLE_EDITING, payload: id }
 }

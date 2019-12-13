@@ -11,6 +11,7 @@ import {
   DELETE_SMURF_START,
   DELETE_SMURF_SUCCESS,
   DELETE_SMURF_ERROR,
+  TOGGLE_EDITING,
 } from '../actions'
 
 const initialState = {
@@ -18,6 +19,8 @@ const initialState = {
   loading: false,
   error: null,
   isSubmitting: false,
+  editing: false,
+  editId: null,
 }
 
 export const smurfsReducer = (state = initialState, action) => {
@@ -59,17 +62,25 @@ export const smurfsReducer = (state = initialState, action) => {
         isSubmitting: false,
         isLoading: false,
       }
+    case TOGGLE_EDITING:
+      return {
+        ...state,
+        editing: !state.editing,
+        editId: action.payload,
+      }
     case EDIT_SMURF_START:
       return {
         ...state,
         isSubmitting: true,
         isLoading: true,
+        editing: false,
       }
     case EDIT_SMURF_SUCCESS:
       return {
         ...state,
         isSubmitting: false,
         isLoading: false,
+        editing: false,
         smurfs: [...action.payload],
       }
     case EDIT_SMURF_ERROR:
@@ -78,6 +89,7 @@ export const smurfsReducer = (state = initialState, action) => {
         error: action.payload,
         isSubmitting: false,
         isLoading: false,
+        editing: false,
       }
       case DELETE_SMURF_START:
       return {

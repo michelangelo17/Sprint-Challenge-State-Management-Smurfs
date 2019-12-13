@@ -1,9 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteSmurf } from '../../redux/actions'
+import { deleteSmurf, toggleEditing } from '../../redux/actions'
+import EditSmurfForm from './EditSmurfForm'
 
 const SmurfList = () => {
-  const { smurfs } = useSelector(state => state)
+  const { smurfs, editing, editId } = useSelector(state => state)
   const dispatch = useDispatch()
   return (
     <>
@@ -13,6 +14,8 @@ const SmurfList = () => {
           <h3>{smurf.age}</h3>
           <h3>{smurf.height}</h3>
           <button onClick={() => dispatch(deleteSmurf(smurf.id))} type='button'>Delete</button>
+          <button onClick={() => dispatch(toggleEditing(smurf.id))} type='button'>Edit</button>
+          {editing && smurf.id === editId && <EditSmurfForm smurf={smurf}/>}
         </div>
       ))}
     </>
